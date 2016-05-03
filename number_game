@@ -22,6 +22,7 @@ public class Cows_Bulls {
     BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
     int cows=0;
     int bulls=0;     
+    int number_entered;
     //Function Generating Random 4 Digit Number    
     List<Integer> numbers = new ArrayList<>();
     for(int i = 0; i < 10; i++)
@@ -34,40 +35,59 @@ public class Cows_Bulls {
     {
         result += numbers.get(i).toString();
     }
-    System.out.println(result);  
+    //System.out.println(result);  
     //
-    int chances_by_player1 [][]=new int[10][4];
+    int chances_by_player1 [][]=new int[1][10];
     int cows_bulls[][]=new int[10][2];
     int number_to_be_predicted=Integer.parseInt(result);
     
     //Function breaking the random generated number and adding to new [1][4] array.
     int number_required_to_win[][]=new int[1][4];
+    int number_entered_to_win[][]=new int[1][4];
+    
     for(int i=3;i>=0;i--)
     {
         int x1=number_to_be_predicted%10;
         number_required_to_win[0][i]=x1;
+        
         number_to_be_predicted=number_to_be_predicted/10;
         
        // System.out.println("/ result= "+number_to_be_predicted+" % result= "+x1);
     }
+   /*
     for(int i=0;i<4;i++)
     {
     System.out.print(number_required_to_win[0][i]+"  ");
         //System.out.println("The Number is: "+number_to_be_predicted );
     }
+    */
+        System.out.println();
     //Function generating each chance for player; maximum 10
-    int turn_number=1;
-    while(turn_number<=10)
+    int turn_number=0;
+    while(turn_number<10)
     {
-        System.out.println("Enter the number : ");
-        chances_by_player1[0][turn_number]=Integer.parseInt(br.readLine());
+        cows=0;
+        bulls=0;
+        System.out.println("Enter the  number for chance : "+(turn_number+1));
+        number_entered=Integer.parseInt(br.readLine());
+        chances_by_player1[0][turn_number]=number_entered;
+        for(int i=3;i>=0;i--)
+        {
+                   
+        int x1=number_entered%10;
+        number_entered_to_win[0][i]=x1;
+        number_entered=number_entered/10;
+        
+       // System.out.println("/ result= "+number_to_be_predicted+" % result= "+x1);
+        }
+        
         
         
         //Function calculating cows 
         for(int k=0;k<4;k++)
         for(int j=0;j<4;j++)
         {
-            if(number_required_to_win[0][k]==chances_by_player1[0][j])
+            if(number_required_to_win[0][k]==number_entered_to_win[0][j])
             {
                 cows++;
             }
@@ -77,19 +97,40 @@ public class Cows_Bulls {
         
         for(int j=0;j<4;j++)
         {
-            if(number_required_to_win[0][j]==chances_by_player1[0][j])
+            if(number_required_to_win[0][j]==number_entered_to_win[0][j])
             {
                 bulls++;
             }
         }
         
+        cows_bulls[turn_number][0]=cows;
+        cows_bulls[turn_number][1]=bulls;
+        
+        //Function telling the result
+         
+        if(bulls==4)
+        {
+            System.out.println("YOU WIN");
+            break;
+        }
+        else
+        {
+            System.out.println("You Entered Number is = "+chances_by_player1[0][turn_number]+" ||  cows = "+cows+" || bulss ="+bulls);
+        }
+        
         turn_number++;
+        
+        if(turn_number==10)
+        {
+            System.out.println("YOU LOST!!! play again and number which you wanted to predict was = "+result);
+            break;
+        }
     }
     
     
     
     
-    //Function telling the result
+   
     
     //
     
