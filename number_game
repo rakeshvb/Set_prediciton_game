@@ -16,8 +16,12 @@ public class Cows_Bulls {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException
+    {
     
+    BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+    int cows=0;
+    int bulls=0;     
     //Function Generating Random 4 Digit Number    
     List<Integer> numbers = new ArrayList<>();
     for(int i = 0; i < 10; i++)
@@ -33,19 +37,56 @@ public class Cows_Bulls {
     System.out.println(result);  
     //
     int chances_by_player1 [][]=new int[10][4];
+    int cows_bulls[][]=new int[10][2];
     int number_to_be_predicted=Integer.parseInt(result);
     
     //Function breaking the random generated number and adding to new [1][4] array.
     int number_required_to_win[][]=new int[1][4];
-    
-    //Function generating each chance for player; maximum 10
-    int trun_number=1;
-    while(trun_number<=10)
+    for(int i=3;i>=0;i--)
     {
-        trun_number++;
+        int x1=number_to_be_predicted%10;
+        number_required_to_win[0][i]=x1;
+        number_to_be_predicted=number_to_be_predicted/10;
+        
+       // System.out.println("/ result= "+number_to_be_predicted+" % result= "+x1);
+    }
+    for(int i=0;i<4;i++)
+    {
+    System.out.print(number_required_to_win[0][i]+"  ");
+        //System.out.println("The Number is: "+number_to_be_predicted );
+    }
+    //Function generating each chance for player; maximum 10
+    int turn_number=1;
+    while(turn_number<=10)
+    {
+        System.out.println("Enter the number : ");
+        chances_by_player1[0][turn_number]=Integer.parseInt(br.readLine());
+        
+        
+        //Function calculating cows 
+        for(int k=0;k<4;k++)
+        for(int j=0;j<4;j++)
+        {
+            if(number_required_to_win[0][k]==chances_by_player1[0][j])
+            {
+                cows++;
+            }
+        }
+        
+        //Function calculating  bulls
+        
+        for(int j=0;j<4;j++)
+        {
+            if(number_required_to_win[0][j]==chances_by_player1[0][j])
+            {
+                bulls++;
+            }
+        }
+        
+        turn_number++;
     }
     
-    //Function calculating cows and bulls
+    
     
     
     //Function telling the result
